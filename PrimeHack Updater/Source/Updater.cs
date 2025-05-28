@@ -72,8 +72,17 @@ namespace PrimeHack_Updater
 
                 dynamic j = JObject.Parse(html);
                 JArray ja = j.assets;
-                dynamic assets = ja[0];
-                string url = assets.browser_download_url;
+
+                string url = null;
+                foreach (var asset in ja)
+                {
+                    string name = asset["name"]?.ToString();
+                    if  (name != null && name.StartsWith("PrimeHack.Release"))
+                    {
+                        url = asset["browser_download_url"]?.ToString();
+                        break;
+                    }
+                }
 
                 sysversion = remoteversion;
 
